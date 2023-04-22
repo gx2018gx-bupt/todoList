@@ -19,7 +19,7 @@ const Item = props => {
 				<input
 					type='checkbox'
 					checked={item.check}
-					onChange={e => updataTodo(item.id, e.target.checked)}
+					onChange={e => updateTodo(item.id, e.target.checked)}
 				/>
 				<span>{item.name}</span>
 			</label>
@@ -31,7 +31,7 @@ const Item = props => {
 				style={{ display: mouse ? 'block' : 'none' }}
 				onClick={() => delTodo(item.id)}
 			>
-				删除
+				delete
 			</Button>
 		</li>
 	)

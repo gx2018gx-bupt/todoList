@@ -3,7 +3,7 @@ import { Button } from 'antd'
 import '../../index.css'
 
 const Footer = props => {
-	const { todoList, allChecked, clearAllDone } = props
+	const { todoList, allActionByTodo, clearDoneTodo } = props
 	const doneCount = todoList.reduce(
 		(pre, todo) => pre + (todo.check ? 1 : 0),
 		0
@@ -14,15 +14,15 @@ const Footer = props => {
 			<label>
 				<input
 					type='checkbox'
-					onChange={e => allChecked(e.target.checked)}
+					onChange={e => allActionByTodo(e.target.checked)}
 					checked={doneCount === allCount && allCount !== 0 ? true : false}
 				/>
 			</label>
 			<span>
-				<span>已完成</span> / 全部{todoList.length}
+				<span>done</span> / all{todoList.length || 0}todo
 			</span>
-			<Button type='primary' ghost onClick={() => clearAllDone()}>
-				清除已完成任务
+			<Button type='primary' ghost onClick={() => clearDoneTodo()}>
+				clear done list
 			</Button>
 		</div>
 	)

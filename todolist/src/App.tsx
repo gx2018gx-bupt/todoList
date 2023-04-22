@@ -1,11 +1,17 @@
 import { useState } from 'react'
 import './App.css'
-import Header from './components/header/Header'
-import List from './components/list/List'
-import Footer from './components/footer/Footer'
+import TodoHeader from './components/TodoHeader'
+import ListBox from './components/ListBox'
+import TodoFooter from './components/TodoFooter'
+
+interface TodoItem {
+	id?: string
+	name: string
+	check: boolean
+}
 
 function App() {
-	const todoListData = [
+	const todoListData: TodoItem[] = [
 		{ id: '0', name: '0-todo', check: true },
 		{ id: '1', name: '1-todo', check: false },
 		{ id: '2', name: '2-todo', check: true },
@@ -14,46 +20,46 @@ function App() {
 
 	const [todoList, setTodoList] = useState(todoListData)
 
-	// 添加todo
-	const addTodo = todoObj => {
-		const newTodos = [todoObj, ...todoList]
-		setTodoList(newTodos)
+	// add todo
+	const addTodo = (todoItem: TodoItem) => {
+		const newTodoList = [todoItem, ...todoList]
+		setTodoList(newTodoList)
 	}
 
-	// 更新todolist
-	const updateTodo = (id, check) => {
-		const newTodos = todoList.map(item => {
+	// update todo
+	const updateTodo = (id: string, checkInfo: boolean) => {
+		const newTodoList = todoList.map(item => {
 			if (item.id === id) {
-				return { ...item, check: check }
+				return { ...item, check: checkInfo }
 			} else {
 				return item
 			}
 		})
-		setTodoList(newTodos)
+		setTodoList(newTodoList)
 	}
 
-	// 删除某项todolist
-	const delTodo = id => {
-		const newTodos = todoList.filter(item => {
+	// delete todo
+	const deleteTodo = (id: string) => {
+		const newTodoList = todoList.filter(item => {
 			return item.id !== id
 		})
-		setTodoList(newTodos)
+		setTodoList(newTodoList)
 	}
 
-	// 全选/全不选
-	const allChecked = check => {
-		const newTodos = todoList.map(item => {
-			return { ...item, check: check }
+	// all todo action
+	const allActionByTodo = (checkInfo: boolean) => {
+		const newTodoList = todoList.map(item => {
+			return { ...item, check: checkInfo }
 		})
-		setTodoList(newTodos)
+		setTodoList(newTodoList)
 	}
 
-	// 清除所以已经完成的任务
-	const clearAllDone = () => {
-		const newTodos = todoList.filter(item => {
+	// clear done todo
+	const clearDoneTodo = () => {
+		const newTodoList = todoList.filter(item => {
 			return !item.check
 		})
-		setTodoList(newTodos)
+		setTodoList(newTodoList)
 	}
 
 	return (
@@ -66,12 +72,16 @@ function App() {
 			}}
 		>
 			<div className='todo-wrap'>
-				<Header addTodo={addTodo} />
-				<List todoList={todoList} updateTodo={updateTodo} delTodo={delTodo} />
-				<Footer
+				<TodoHeader addTodo={addTodo} />
+				<ListBox
 					todoList={todoList}
-					allChecked={allChecked}
-					clearAllDone={clearAllDone}
+					updateTodo={updateTodo}
+					deleteTodo={deleteTodo}
+				/>
+				<TodoFooter
+					todoList={todoList}
+					allActionByTodo={allActionByTodo}
+					clearDoneTodo={clearDoneTodo}
 				/>
 			</div>
 		</div>
